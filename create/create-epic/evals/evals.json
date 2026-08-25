@@ -1,0 +1,171 @@
+{
+  "skill": "create-epic",
+  "version": "0.2",
+  "trigger_evals": [
+    {
+      "prompt": "Create a GitHub epic for the billing rewrite and organize the existing issues underneath it.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Open a parent initiative for migrating authentication across the web app, API, and workers.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Turn this roadmap item into a delivery-ready epic with child workstreams and dependencies.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Use gh to create an Epic issue, attach #120 and #121 as sub-issues, and mark it blocked by #88.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a GitLab epic for the observability program with inherited dates and existing child issues.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Refine this epic so its goals, non-goals, success criteria, risks, and child hierarchy are complete.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Decompose this initiative into child issues and nested epics without duplicating existing work.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Draft an epic for the checkout redesign but do not create anything remotely yet.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Set the roadmap project, Golden Pounds, target date, and health metadata on this epic.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Move these existing issues under the payments epic and preserve their blocker relationships.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create an umbrella issue that tracks the multi-service PostgreSQL migration as native sub-issues.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Split this large feature into two epics because it has separate outcomes and release paths.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a single implementation-ready issue for fixing the login timeout.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write a conventional commit message for these staged files.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a pull request for the current branch.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Summarize epic #42 without changing it.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Review this roadmap and tell me which initiative is highest priority.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a release milestone for version 3.0.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain how GitHub sub-issues work.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "List all epics currently at risk.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Generate Vitest tests for this Vue component.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Implement all issues in epic #91.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Close every completed child issue in this epic.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a project board for our Q4 roadmap.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "github-native-epic",
+      "prompt": "Create a GitHub epic for the session-platform migration. The org already has an Epic issue type, Roadmap project, Priority, Golden Pounds, and Target date fields. Reuse #120 and #121 as children, create missing deliverables, and mark the epic blocked by #88.",
+      "assertions": [
+        "Inspects repository conventions, existing Epic issue type, fields, project, and overlapping work before creation.",
+        "Produces a coherent outcome with goals, non-goals, scope, success signals, workstreams, sequencing, risks, rollout, and epic-level acceptance criteria.",
+        "Reuses #120 and #121 rather than duplicating them.",
+        "Uses native sub-issue and blocked-by relationships instead of only Markdown links.",
+        "Uses the existing Epic type, Roadmap project, Priority, Golden Pounds, and Target date fields without inventing taxonomy.",
+        "Does not derive Target date from Golden Pounds or sum child estimates without an explicit repository rule.",
+        "Verifies the final parent, children, dependencies, project fields, and issue fields from the remote."
+      ]
+    },
+    {
+      "id": "github-no-epic-type",
+      "prompt": "Create an epic-like parent for the checkout modernization. This GitHub org has no Epic issue type but uses parent issues and sub-issues in Roadmap.",
+      "assertions": [
+        "Does not create a new Epic issue type or label merely to satisfy the request.",
+        "Uses the existing parent/sub-issue convention as the native epic representation.",
+        "Adds the parent to Roadmap using existing fields and options.",
+        "Keeps implementation-level detail in child issues and the integrated outcome in the parent.",
+        "Verifies hierarchy and project metadata after mutation."
+      ]
+    },
+    {
+      "id": "gitlab-work-item-epic",
+      "prompt": "Create a GitLab epic for migrating all customer exports to the new pipeline. Use existing issues as children, preserve inherited start/due dates, and model blockers between work items.",
+      "assertions": [
+        "Treats the Epic as a current GitLab work item and avoids building new automation around the deprecated legacy Epics REST API.",
+        "Inspects target instance/version/tier and CLI capabilities before choosing glab or Work Item API operations.",
+        "Preserves inherited dates instead of replacing them with guessed fixed dates.",
+        "Uses native child-item and linked-item relationships.",
+        "Models blockers on the work items that actually depend on each other, not only on the parent epic.",
+        "Verifies hierarchy, dates, and linked-item relationships from the remote."
+      ]
+    },
+    {
+      "id": "draft-decomposition",
+      "prompt": "Draft an extremely complete epic for passwordless authentication across web, mobile, API, recovery, observability, and rollout, but do not create remote items.",
+      "assertions": [
+        "Does not mutate the remote.",
+        "Defines one coherent outcome and explicit non-goals.",
+        "Includes security/privacy, compatibility, rollout, observability, risks, success signals, sequencing, and epic acceptance criteria.",
+        "Proposes independently verifiable child deliverables and identifies which would be issues versus nested epics.",
+        "Keeps child implementation details out of the epic-level acceptance criteria.",
+        "Returns proposed metadata and unresolved planning decisions separately."
+      ]
+    },
+    {
+      "id": "scope-too-small",
+      "prompt": "Create an epic for changing one API timeout constant and adding its regression test.",
+      "assertions": [
+        "Recognizes the work as issue-sized rather than forcing an epic.",
+        "Does not manufacture child workstreams solely to make the request look epic-sized.",
+        "Redirects the work toward an implementation-ready issue while preserving the requested outcome."
+      ]
+    },
+    {
+      "id": "partial-metadata-failure",
+      "prompt": "Create the epic and children even if one optional health or project field cannot be applied.",
+      "assertions": [
+        "Creates the epic when core creation and hierarchy are possible.",
+        "Continues applying independent metadata and relationships after an optional field fails.",
+        "Does not silently drop the failed field.",
+        "Reports only the exact unapplied metadata and reason after verifying final remote state."
+      ]
+    }
+  ]
+}
