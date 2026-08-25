@@ -1,0 +1,174 @@
+{
+  "skill": "improve-codebase-architecture",
+  "version": "1.0",
+  "trigger_evals": [
+    {
+      "prompt": "Review this repository's architecture and show me the strongest refactoring opportunities.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Scan the codebase for shallow modules and places where the interfaces expose too much implementation detail.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Changing checkout behavior keeps touching eight files. Can you inspect the architecture and figure out where ownership should live?",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Find architectural friction in the parts of this repo that have changed most over the last few months.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Our tests mock a chain of helpers and still miss integration bugs. Review the module seams and recommend a deeper design.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Assess the billing subsystem for poor locality, leaky seams, and excessive orchestration in callers.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Quero revisar a arquitetura desse código e priorizar refactors que reduzam acoplamento e espalhamento de regras.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Which modules in this codebase are too shallow, and which one should we deepen first?",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Generate a before/after architecture review for the order flow and rank the candidate refactors.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Evaluate whether these repository adapters represent real seams or just abstractions added for mocking.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "This module has twenty tiny wrappers and callers need to know the exact sequence. Help redesign the architecture without changing behavior yet.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Review the current architecture against our CONTEXT.md and ADRs, then suggest evidence-backed structural improvements.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Implement a Vue component for the new account settings page.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Refactor this single function to make it easier to read without changing its behavior.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Design a greenfield architecture for a new event-driven payment platform.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Audit this pull request for regressions and security issues before merge.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Profile this Node.js API and find why p95 latency increased.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Run a security audit of the repository and check dependencies for known CVEs.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain the difference between hexagonal architecture and clean architecture.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write an ADR documenting our decision to use PostgreSQL.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Generate Vitest unit tests for this composable.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Upgrade Nuxt and fix the resulting TypeScript errors.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Summarize the repository directory structure and tell me what each folder contains.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Move these files into a different folder and update the imports.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "scope-from-evidence",
+      "prompt": "Review the architecture of this repository. I did not name a specific area.",
+      "assertions": [
+        "Scopes the review before scanning the entire repository.",
+        "Uses recent Git history as a prioritization signal when useful history is available.",
+        "Identifies recurring files, fixes, or change fan-out instead of choosing an area from generic architecture preference.",
+        "States the selected scope concisely before deeper analysis.",
+        "Does not treat recent change frequency alone as proof of bad architecture."
+      ]
+    },
+    {
+      "id": "respect-domain-and-adrs",
+      "prompt": "Review the Order subsystem. The repository contains CONTEXT.md and docs/adr/0007-order-persistence.md.",
+      "assertions": [
+        "Reads the domain glossary and relevant ADR before proposing structural changes.",
+        "Uses established domain terminology while using module, interface, seam, locality, leverage, and depth for structural analysis.",
+        "Treats accepted ADRs as constraints rather than re-litigating them automatically.",
+        "Surfaces an ADR conflict only when repository evidence justifies reconsideration.",
+        "Does not invent missing domain concepts or ADRs."
+      ]
+    },
+    {
+      "id": "evidence-backed-deepening",
+      "prompt": "The checkout flow has controllers calling validation helpers, pricing helpers, persistence helpers, and provider wrappers. Tests mostly mock those calls. Find the best architecture refactors.",
+      "assertions": [
+        "Produces a small ranked candidate set rather than a broad refactor wishlist.",
+        "Anchors each candidate in concrete files, control flow, tests, history, or documented constraints.",
+        "Applies the deletion test to suspected shallow modules.",
+        "Explains each candidate in terms of responsibility movement, locality, leverage, and test surface.",
+        "Distinguishes real seams from abstractions created only for mocking.",
+        "Rejects file moves, renames, or generic abstractions that do not deepen a module.",
+        "Uses Strong, Worth exploring, or Speculative consistently with the evidence."
+      ]
+    },
+    {
+      "id": "visual-report-contract",
+      "prompt": "Review the repository architecture and give me the usual visual report.",
+      "assertions": [
+        "Writes one self-contained HTML report to an OS temporary directory rather than the repository by default.",
+        "Uses before/after visuals for every candidate.",
+        "Uses Mermaid for graph-shaped relationships and custom HTML/CSS/SVG when module depth is better shown geometrically.",
+        "Includes files, evidence, problem, deepening, locality, leverage, test effect, risks, strength, and ADR warnings when applicable.",
+        "Ends with one top recommendation and reports the absolute file path.",
+        "Does not invent detailed method signatures before the user selects a candidate."
+      ]
+    },
+    {
+      "id": "selected-candidate-workshop",
+      "prompt": "I pick the candidate that deepens the Order intake module. Explore it with me before implementation.",
+      "assertions": [
+        "Clarifies goal, ownership, seam, dependencies, invariants, test surface, migration, and compatibility before editing code.",
+        "Designs at least two materially different interface options when the best interface is unclear.",
+        "Compares options using interface burden, hidden complexity, locality, adapter reality, test surface, migration cost, and repository conventions.",
+        "Keeps infrastructure translation behind adapters only when a real seam is justified.",
+        "Does not edit production code during an exploration-only request."
+      ]
+    },
+    {
+      "id": "requested-implementation",
+      "prompt": "Implement the selected deepening now and keep behavior stable.",
+      "assertions": [
+        "Re-reads repository instructions for affected files before implementation.",
+        "Captures or runs relevant baseline tests before structural changes when feasible.",
+        "Makes the smallest coherent responsibility and seam change instead of mixing unrelated cleanup.",
+        "Migrates callers and removes obsolete shallow modules only after they are unused.",
+        "Updates tests toward the surviving interface without deleting valuable algorithm or failure-case coverage.",
+        "Runs targeted and repository-required validation, reviews the complete diff, and reports remaining risks."
+      ]
+    }
+  ]
+}
