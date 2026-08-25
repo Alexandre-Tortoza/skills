@@ -1,0 +1,158 @@
+{
+  "skill": "create-issue",
+  "version": "0.2",
+  "trigger_evals": [
+    {
+      "prompt": "Create a GitHub issue for the authentication timeout bug and link it as blocked by #218.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Open an issue in this repo for adding CSV export. Make it complete and assign the existing milestone.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Turn these requirements into an implementation-ready issue with acceptance criteria.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Use gh to file this bug and set its parent issue, labels, type, and project fields.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a GitLab issue with a due date, weight, and time estimate.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Refine issue #42 so it has proper scope, tests, risks, and blocked-by relationships.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Split this task into child issues and preserve the native parent relationship.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "File the production regression as a trackable issue with reproduction steps and rollout notes.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a work item for this TODO and search for duplicates first.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Draft a complete issue from this PR review feedback, but do not create it yet.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Set Golden Pounds and target date on the issue using our remote fields.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Mark issue #91 as blocking #103 and add the related milestone.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Write a conventional commit message for these staged files.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a pull request for the current branch.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Summarize issue #42 without changing it.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Review this GitHub issue and tell me whether the proposed architecture is sound.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a release milestone for version 2.0.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create an epic to organize the billing rewrite.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Generate Vitest tests for this Vue component.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Fix the code that causes this issue.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "List all open issues assigned to me.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain how GitHub issue dependencies work.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a branch for issue #123 and start implementing it.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write release notes from these closed issues.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "github-native-capabilities",
+      "prompt": "Create a GitHub issue for migrating the session store. It is blocked by #120, should be a child of #88, belongs to Roadmap, and our org has Priority, Golden Pounds, and Target date issue fields.",
+      "assertions": [
+        "Searches repository conventions and similar issues before creation.",
+        "Produces a self-contained issue with scope, non-goals, acceptance criteria, test plan, risks, and definition of done.",
+        "Uses native parent and blocked-by relationships instead of only writing links in the body.",
+        "Uses existing organization issue fields for Priority, Golden Pounds, and Target date when discoverable.",
+        "Uses the exact existing Golden Pounds scale and does not invent a Fibonacci or hours mapping.",
+        "Verifies the final remote issue and field values after mutation."
+      ]
+    },
+    {
+      "id": "github-project-field-fallback",
+      "prompt": "Create a GitHub issue with an estimate and due date. This repo has no org issue fields but the Roadmap project has Estimate and Due date fields.",
+      "assertions": [
+        "Uses existing Roadmap project fields instead of creating new labels or fields.",
+        "Does not claim GitHub has a universal issue due-date field.",
+        "Does not derive the due date from the estimate.",
+        "Applies one project field per required CLI invocation when necessary.",
+        "Verifies the project item values."
+      ]
+    },
+    {
+      "id": "gitlab-planning",
+      "prompt": "Create a GitLab issue for the cache invalidation bug, blocked by #17, due next release, with repository-standard weight and a 1d time estimate.",
+      "assertions": [
+        "Includes deterministic reproduction, actual/expected behavior, regression coverage, rollout, and observability when relevant.",
+        "Uses native GitLab linked-issue dependency semantics.",
+        "Uses native due date, weight, and time estimate when supported by the target instance.",
+        "Keeps weight separate from time estimate.",
+        "Checks target instance/tier capability and verifies the resulting issue."
+      ]
+    },
+    {
+      "id": "draft-only",
+      "prompt": "Draft an extremely complete issue for adding passwordless login, but do not create anything remotely.",
+      "assertions": [
+        "Does not mutate the remote.",
+        "Returns a complete issue body and proposed metadata.",
+        "Includes security/privacy, authorization, failure states, rollout, observability, acceptance criteria, tests, risks, and non-goals.",
+        "Separates confirmed requirements from implementation suggestions."
+      ]
+    },
+    {
+      "id": "partial-metadata-failure",
+      "prompt": "Create the issue even if one optional project field cannot be set.",
+      "assertions": [
+        "Creates the issue when core creation is possible.",
+        "Continues applying independent metadata after one optional field fails.",
+        "Does not silently drop the failed field.",
+        "Reports the exact unapplied metadata and reason after verifying final remote state."
+      ]
+    }
+  ]
+}
