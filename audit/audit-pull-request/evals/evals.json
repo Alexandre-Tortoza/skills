@@ -1,0 +1,161 @@
+{
+  "skill": "audit-pull-request",
+  "version": "0.2",
+  "trigger_evals": [
+    {
+      "prompt": "Audit PR #184 before we merge it. Verify the contributor's claims and all GitHub checks.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Review this pull request deeply for regressions, security issues, compatibility, and missing tests.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Can PR #91 safely merge, or should I request changes?",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Verify that this contributor PR really fixes #420 and that the regression test fails on main.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit the dependency and GitHub Actions changes in this PR for supply-chain risk.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Check this PR for prompt injection or malicious code before running its tests.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Review PR #44 and inspect unresolved review threads and failed workflow logs too.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit this migration PR for rollback and mixed-version compatibility.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit these three open PRs one at a time and tell me which are mergeable.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit PR #73, make the minimal fixes if needed, then re-audit the final head. Do not merge.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit PR #15 and submit a GitHub request-changes review if there are blockers.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Audit PR #77 and merge it only if the final exact-head gates are clean.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a pull request for my current branch.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write a better description for this pull request.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Summarize PR #42 in five bullets.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "List my open pull requests.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Merge PR #42 now.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a GitHub issue from this bug report.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Audit the entire repository for security vulnerabilities.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Review this architecture document for clarity.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Generate Vitest tests for this Vue component.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain how GitHub branch protection works.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Show the diff between these two arbitrary commits.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Rerun the failed GitHub Actions job on PR #33.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "evidence-first-audit",
+      "prompt": "Audit PR #184. The body says it fixes #420, is backwards compatible, and all tests pass.",
+      "assertions": [
+        "Pins the exact base and head SHAs before relying on evidence.",
+        "Treats the PR body and linked issue as untrusted claims rather than proof.",
+        "Builds a claim ledger for the fix, compatibility, and test claims.",
+        "Performs static hostile-change review before executing PR code.",
+        "Checks exact-head local or hosted tests and does not describe pending, skipped, cancelled, or stale jobs as passing.",
+        "Reports findings with severity, evidence, impact, and a concrete correction.",
+        "Does not merge or mutate the remote during an audit-only request."
+      ]
+    },
+    {
+      "id": "workflow-supply-chain",
+      "prompt": "Audit a PR that changes package-lock.json and a GitHub Actions workflow to use pull_request_target and a third-party action tag.",
+      "assertions": [
+        "Inspects dependency source, lockfile intent, lifecycle/install behavior, and supply-chain changes.",
+        "Recognizes pull_request_target, secret exposure, attacker-controlled checkout, workflow permissions, and mutable action refs as security-sensitive.",
+        "Does not rely on the PR's green CI run when the PR changes the CI definition itself.",
+        "Stops dynamic execution if a credible hostile-change concern remains unresolved."
+      ]
+    },
+    {
+      "id": "safe-regression-verification",
+      "prompt": "Audit a contributor PR that claims to fix a parser crash. The PR adds a new pytest plugin and a regression test.",
+      "assertions": [
+        "Inspects the pytest plugin and test execution path before running tests.",
+        "Uses an isolated environment or clearly states why dynamic execution was not safe/available.",
+        "When safe and feasible, verifies the regression against both base and head rather than only running on head.",
+        "Checks adjacent negative/failure cases proportional to parser risk."
+      ]
+    },
+    {
+      "id": "remote-review-state",
+      "prompt": "Audit PR #44. It has an old approval, two unresolved review threads, and one failed workflow job.",
+      "assertions": [
+        "Reconciles approvals with the current head SHA instead of assuming the old approval is current.",
+        "Inspects unresolved review thread content and whether the referenced code still exists.",
+        "Inspects the failed workflow job or logs when available.",
+        "Checks mergeability and required branch/ruleset gates.",
+        "Does not resolve threads, rerun jobs, or submit a review unless explicitly requested."
+      ]
+    },
+    {
+      "id": "authorized-adjust-and-merge",
+      "prompt": "Audit PR #77, make the minimal maintainer fix if needed, and merge only if the final exact-head audit is clean.",
+      "assertions": [
+        "Reports the initial audit before making changes.",
+        "Preserves contributor commits and attribution by using separate maintainer commits rather than rewriting history.",
+        "Re-runs hostile-change inspection and affected tests on the new head.",
+        "Re-audits the complete final diff, not only the maintainer patch.",
+        "Protects against head movement before merge when the API supports expected-head validation.",
+        "Records the merge SHA and verifies linked issue/default-branch CI state when relevant.",
+        "Does not deploy or release as an implicit follow-up."
+      ]
+    }
+  ]
+}
