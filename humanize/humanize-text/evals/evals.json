@@ -1,0 +1,170 @@
+{
+  "skill": "humanize-text",
+  "version": "0.2",
+  "trigger_evals": [
+    {
+      "prompt": "Humanize this paragraph so it stops sounding AI-generated but keep every fact exactly as written.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Rewrite this article in a more natural human voice without adding any facts.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Can you de-AI this text? It has too many em dashes, fake significance claims, and generic conclusions.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Make this generated documentation sound like a developer wrote it, but keep the technical meaning unchanged.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Review this essay for obvious AI-writing tells and rewrite the affected passages.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Use my writing sample to rewrite this draft so it sounds like me rather than ChatGPT.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Remove the promotional AI tone from this destination description without deleting sourced details.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Polish this report specifically to remove LLM-style filler, rule-of-three phrasing, and vague attributions.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Humanize the prose in this Markdown file in place. Leave code blocks and frontmatter untouched.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "This PR description reads like AI slop. Rewrite it naturally and preserve all implementation facts.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Naturalize this biography without guessing anything about the person's private life.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Make this text less robotic while preserving my punctuation and sentence rhythm from the sample below.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Summarize this article in five bullets.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Proofread this paragraph for spelling mistakes only.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Translate this report from English to Portuguese.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write a new blog post about PostgreSQL indexes from scratch.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain whether em dashes are grammatically correct in English.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Detect whether this text was definitely written by AI and give me a probability score.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Shorten this paragraph to 100 words without changing its style.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Convert this README into JSON.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Fix the TypeScript errors in this Vue component.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a GitHub issue from these requirements.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Give me feedback on the argument in this essay, but do not rewrite it.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Format these release notes according to Keep a Changelog.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "factual-preservation",
+      "prompt": "Humanize this text without adding facts: 'The project began in 2021. It has 14 contributors. Observers have cited its pivotal role in shaping the evolving landscape of local tooling.'",
+      "assertions": [
+        "Preserves the year 2021 and the number 14 exactly.",
+        "Does not invent names, sources, dates, causes, locations, or measurements.",
+        "Removes or neutralizes the vague attribution and inflated significance language rather than making the attribution more specific without evidence.",
+        "Runs the draft, audit, final loop because the input is pasted text.",
+        "The final rewrite contains no em dash or en dash unless an author sample establishes that style."
+      ]
+    },
+    {
+      "id": "voice-sample-overrides-defaults",
+      "prompt": "Humanize the draft using this author sample as the voice target. The sample repeatedly uses em dashes, fragments, and parenthetical self-corrections. Preserve that voice while removing promotional AI wording from the draft.",
+      "assertions": [
+        "Analyzes the supplied sample before rewriting.",
+        "Treats the sample as higher priority than the default em-dash ban.",
+        "Preserves characteristic fragments, parentheticals, rhythm, and vocabulary when they do not change meaning.",
+        "Removes promotional and formulaic AI patterns without regularizing the author into generic polished prose.",
+        "Does not add factual detail to manufacture personality."
+      ]
+    },
+    {
+      "id": "file-mode-boundaries",
+      "prompt": "Humanize README.md in place. The file contains YAML frontmatter, prose, fenced shell commands, JSON examples, and Markdown links.",
+      "assertions": [
+        "Uses file mode and runs the draft and audit internally.",
+        "Rewrites only editable prose.",
+        "Preserves frontmatter, fenced code, structured data, and link targets.",
+        "Writes only the final rewrite back to the file.",
+        "Returns a short summary instead of pasting the full rewritten file into conversation."
+      ]
+    },
+    {
+      "id": "false-positive-restraint",
+      "prompt": "Review this polished technical paragraph for AI-like writing and humanize only where justified. It contains one em dash, one semicolon, formal vocabulary, and otherwise specific implementation details.",
+      "assertions": [
+        "Does not treat perfect grammar, formal vocabulary, one em dash, or one semicolon as proof of AI authorship.",
+        "Looks for clusters of the documented 33 patterns before making broad changes.",
+        "Preserves unusual and specific implementation details.",
+        "Keeps technical register and precision rather than forcing casual prose.",
+        "Does not claim certainty about whether a human or model authored the source."
+      ]
+    },
+    {
+      "id": "speculative-biography-safety",
+      "prompt": "Humanize this biography: 'Information about her early life is not publicly available, suggesting she maintains a low profile. She likely grew up in a middle-class household, which shaped her later interest in education reform.' No other source material is available.",
+      "assertions": [
+        "Removes the unsupported inference that privacy implies a low profile.",
+        "Removes the guessed middle-class background and causal explanation.",
+        "Does not replace the guesses with different plausible biographical filler.",
+        "Either states plainly that the early life is not documented in the available source or omits the unsupported section.",
+        "The final text contains no fabricated specificity."
+      ]
+    },
+    {
+      "id": "embedded-mode-clean-output",
+      "prompt": "An upstream PR-writing workflow passes a completed PR description through humanize-text as its final editing step.",
+      "assertions": [
+        "Uses embedded mode.",
+        "Runs the pattern scan and two-question audit internally.",
+        "Returns only the final rewritten PR description.",
+        "Does not emit draft labels, audit bullets, generic praise, or offers to continue.",
+        "Preserves all implementation facts, issue references, citations, and link targets."
+      ]
+    }
+  ]
+}
