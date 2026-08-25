@@ -1,0 +1,171 @@
+{
+  "skill": "create-milestone",
+  "version": "0.2",
+  "trigger_evals": [
+    {
+      "prompt": "Create a GitHub milestone for v2.0 and assign the existing release issues to it.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Plan a milestone for the authentication migration with a September 30 target date.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Draft a complete GitLab group milestone for our cross-project public beta, but do not create it yet.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create the Q4 delivery milestone and move issues #12, #18, and PR #44 into it.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Refine our release milestone so the scope, exit criteria, dependencies, and risks are explicit.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Close milestone v1.8 after verifying all committed work is complete.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Reopen the migration milestone and add the two remaining work items.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a GitLab project milestone with start and due dates for the database cutover.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Promote this GitLab project milestone to the group milestone used by the release train.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a milestone from this release plan and preserve the repository's existing naming convention.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Set the due date on milestone #7 and verify its member issues afterward.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Associate these merge requests with the existing GitLab milestone.",
+      "should_trigger": true
+    },
+    {
+      "prompt": "Create a GitHub issue for the API timeout bug.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create an epic for the billing rewrite.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a GitHub release for v2.0 from tag v2.0.0.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a sprint for next week.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "List the open milestones in this repository.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Explain the difference between GitHub milestones and Projects.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Summarize milestone v1.5 without changing it.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Write release notes from the issues in milestone v2.0.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Move this issue to the next sprint iteration.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Implement all issues currently assigned to milestone v3.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Create a project board for roadmap tracking.",
+      "should_trigger": false
+    },
+    {
+      "prompt": "Delete old branches that shipped in the last release.",
+      "should_trigger": false
+    }
+  ],
+  "output_evals": [
+    {
+      "id": "github-release-milestone",
+      "prompt": "Create a GitHub milestone for v3.0 due September 30, using our existing release naming convention. Assign issues #101 and #108 and PR #212. Do not create any new issues.",
+      "assertions": [
+        "Inspects existing milestones and release conventions before creation.",
+        "Uses the GitHub milestone REST API through gh api when no dedicated gh milestone command is available.",
+        "Creates a bounded description with outcome, in-scope/out-of-scope boundaries, exit criteria, dependencies, risks, and references.",
+        "Does not invent a start date because GitHub milestones do not have a native start-date field.",
+        "Inspects current milestone membership before moving issues or the pull request.",
+        "Assigns the existing issues and pull request using native milestone relationships.",
+        "Does not create new work items.",
+        "Re-reads the milestone and member items after mutation."
+      ]
+    },
+    {
+      "id": "gitlab-group-milestone",
+      "prompt": "Create a GitLab group milestone for the cross-project SSO launch from September 1 through October 15. Include the already-existing issues and merge requests referenced in the launch plan.",
+      "assertions": [
+        "Chooses group scope deliberately because work spans projects.",
+        "Searches existing project and group milestones for naming or title conflicts.",
+        "Uses native GitLab start and due dates.",
+        "Uses glab milestone create or the official group milestone API.",
+        "Assigns only existing work explicitly supported by the launch plan.",
+        "Verifies group milestone membership across projects and accounts for subgroup API limitations.",
+        "Does not conflate the milestone with a GitLab release."
+      ]
+    },
+    {
+      "id": "gitlab-promotion-safety",
+      "prompt": "Promote project milestone Release 4 to the parent group milestone.",
+      "assertions": [
+        "Inspects the source milestone and same-named milestones in the group hierarchy first.",
+        "Recognizes GitLab milestone promotion as irreversible.",
+        "Performs promotion only because the user explicitly requested it.",
+        "Verifies the resulting group milestone and reassigned work after promotion."
+      ]
+    },
+    {
+      "id": "draft-only",
+      "prompt": "Draft a milestone for the storage migration. We know the outcome but not the target date yet. Do not change the remote.",
+      "assertions": [
+        "Does not mutate the remote.",
+        "Does not invent a due date or start date.",
+        "Returns a proposed title, complete description, scope, exit criteria, membership plan, and unresolved scheduling decision.",
+        "Separates proposed metadata from the Markdown description."
+      ]
+    },
+    {
+      "id": "primitive-selection",
+      "prompt": "Create a milestone for the ongoing platform backlog with no target outcome or completion boundary.",
+      "assertions": [
+        "Recognizes that an ongoing backlog is not a strong milestone shape.",
+        "Inspects whether the repository uses a Project, board, epic, or iteration for this purpose.",
+        "Does not create an arbitrary milestone merely to satisfy the noun in the request.",
+        "Preserves the user's goal by choosing or recommending the repository-native planning primitive."
+      ]
+    },
+    {
+      "id": "partial-membership-failure",
+      "prompt": "Create the milestone and assign the listed items even if one optional merge request cannot be moved.",
+      "assertions": [
+        "Creates the milestone when core creation is possible.",
+        "Continues applying independent item assignments after one optional assignment fails.",
+        "Does not silently drop the failed assignment.",
+        "Verifies final remote membership and reports the exact unapplied item and reason."
+      ]
+    }
+  ]
+}
